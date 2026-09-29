@@ -419,6 +419,7 @@ label.chk{flex-direction:row;align-items:center;gap:12px;font-weight:600;color:v
 label.chk input{width:22px;height:22px;min-height:0;flex:none;accent-color:var(--navy)}
 form .btn{min-height:60px;font-size:21px}
 .fnote{font-size:14px;color:var(--body)}
+.hp{position:absolute!important;left:-9999px;width:1px;height:1px;overflow:hidden}
 .fmsg{display:none;padding:14px 16px;border-radius:10px;background:var(--teal-t);font-weight:700}
 .info{grid-column:span 5;background:var(--navy);border-radius:20px;padding:48px;color:var(--card);display:flex;flex-direction:column;gap:26px}
 .info h2{font-size:40px}
@@ -981,9 +982,10 @@ footer .base{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
         <label class="full">Grip preference (optional)<input name="grip" type="text" placeholder="e.g. Golf Pride Tour Velvet, midsize"></label>
         <label class="full">Anything else we should know?<textarea name="message" rows="4" placeholder="Which clubs, how many, any preferred grips…"></textarea></label>
         <label class="full">Discount<select name="discount"><option>No discount</option><option>Under 17 (20%)</option></select></label>
+        <label class="hp" aria-hidden="true">Leave this empty<input name="website" type="text" tabindex="-1" autocomplete="off"></label>
         <button class="btn btn-navy full" type="submit">Send booking request</button>
         <p class="fmsg full" id="fmsg" role="status"></p>
-        <p class="fnote full">This preview opens your email app with the details filled in. On the live site it will send directly.</p>
+        <p class="fnote full">Pressing send opens your email app with everything filled in, ready to send to hello@coastalgolfco.co.uk.</p>
       </form>
     </div>
     <div class="info" data-r style="--d:.1s">
@@ -1744,13 +1746,28 @@ footer .base{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
 
   /* booking form */
   window.cgcPrefill = function(f, v){ f.elements['service'].value = v.service; f.elements['clubs'].value = v.clubs; f.elements['discount'].selectedIndex = v.discount; f.elements['message'].value = v.message; };
-  var f = document.getElementById('book'), m = document.getElementById('fmsg'), E = function(k){ return f.elements[k]; };
+  var T0 = Date.now(), f = document.getElementById('book'), m = document.getElementById('fmsg'), E = function(k){ return f.elements[k]; };
   if (f){ try { var pf = JSON.parse(sessionStorage.getItem('cgc-prefill') || 'null'); if (pf){ sessionStorage.removeItem('cgc-prefill'); window.cgcPrefill(f, pf); } } catch(e){} }
   if (f) f.addEventListener('submit', function(e){
     e.preventDefault();
     if (!E('name').value.trim() || !E('phone').value.trim()){ m.style.display = 'block'; m.textContent = 'Please add your name and a phone number so we can call you back.'; return; }
+    var viaMail = function(){ location.href = 'mailto:hello@coastalgolfco.co.uk?subject=' + encodeURIComponent('Booking request: ' + sel.value) + '&body=' + encodeURIComponent(body); };
     var body = 'Name: ' + E('name').value + '\nPhone: ' + E('phone').value + '\nEmail: ' + E('email').value + '\nCollection postcode: ' + E('postcode').value + '\nService: ' + sel.value + '\nClubs: ' + E('clubs').value + '\nPreferred collection day: ' + E('day').value + '\nGrip preference: ' + E('grip').value + '\nDiscount: ' + E('discount').value + '\n\n' + E('message').value;
-    location.href = 'mailto:hello@coastalgolfco.co.uk?subject=' + encodeURIComponent('Booking request: ' + sel.value) + '&body=' + encodeURIComponent(body);
+    var D = '__DIRECT__';
+    if (D.indexOf('__') !== 0){
+      var cfg = D.split('|'), btn = f.querySelector('button[type=submit]'); btn.disabled = true; m.style.display = 'block'; m.textContent = 'Sending...';
+      fetch(cfg[0], { method: 'POST', headers: { apikey: cfg[1], Authorization: 'Bearer ' + cfg[1], 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: E('name').value, phone: E('phone').value, email: E('email').value, postcode: E('postcode').value, service: sel.value, clubs: E('clubs').value,
+          day: E('day').value, grip: E('grip').value, discount: E('discount').value, message: E('message').value, website: E('website').value, ms: Date.now() - T0, page: location.pathname })
+      }).then(function(r){ return r.json().then(function(j){ return { ok: r.ok, j: j }; }); }).then(function(x){
+        btn.disabled = false;
+        if (x.ok && x.j.emailed){ m.textContent = 'Thanks, ' + E('name').value.split(' ')[0] + '. Your request is with Stuart, who will be in touch soon to arrange collection.'; f.reset(); return; }
+        if (x.ok){ m.textContent = 'Thanks. Your request is saved. Your email app will open too: press send so it reaches us straight away.'; viaMail(); return; }
+        m.textContent = x.j.error || 'Something went wrong. Please call or WhatsApp 07792 554989.';
+      }).catch(function(){ btn.disabled = false; m.textContent = 'We couldn\'t send that just now, so your email app will open with it filled in instead.'; viaMail(); });
+      return;
+    }
+    viaMail();
     m.style.display = 'block'; m.textContent = 'Thanks. Your email app should now open with the details filled in.';
   });
 })();
