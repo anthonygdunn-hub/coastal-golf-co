@@ -568,7 +568,9 @@ footer .base{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
 
 @media (max-width:1320px){
   nav.main{display:none}.burger{display:inline-flex}
-  .mnav.open{display:flex;flex-direction:column;background:var(--card);border-bottom:3px solid var(--gold);padding:8px 16px 18px;animation:up .3s ease both}
+  .mnav.open{display:flex;flex-direction:column;background:var(--card);border-bottom:3px solid var(--gold);padding:8px 16px 18px;animation:up .3s ease both;max-height:calc(100vh - var(--mtop,90px));max-height:calc(100dvh - var(--mtop,90px));overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+  .mnav.open>a:last-child{margin-bottom:84px}
+  body.menu-open{overflow:hidden}
   .mnav a{font:500 20px/1 var(--display);letter-spacing:.06em;text-transform:uppercase;text-decoration:none;padding:15px 4px;border-bottom:1px solid var(--line)}
   .mnav a.sub2{font-size:17px;padding-left:22px;color:var(--body)}
   .svcs{grid-template-columns:repeat(3,minmax(0,1fr))}.svcs .svc,.svcs .svc:nth-child(5){grid-column:auto}.svcs .svc:nth-child(7){grid-column:2}
@@ -1467,8 +1469,8 @@ footer .base{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
 
   /* mobile menu */
   var b = document.querySelector('.burger'), n = document.getElementById('mnav');
-  function closeMenu(){ n.classList.remove('open'); b.setAttribute('aria-expanded','false'); b.setAttribute('aria-label','Open menu'); }
-  b.addEventListener('click', function(){ var o = n.classList.toggle('open'); b.setAttribute('aria-expanded', o); b.setAttribute('aria-label', o ? 'Close menu' : 'Open menu'); });
+  function closeMenu(){ n.classList.remove('open'); document.body.classList.remove('menu-open'); b.setAttribute('aria-expanded','false'); b.setAttribute('aria-label','Open menu'); }
+  b.addEventListener('click', function(){ var o = n.classList.toggle('open'); document.body.classList.toggle('menu-open', o); if (o){ n.style.setProperty('--mtop', Math.max(0, n.getBoundingClientRect().top) + 'px'); n.scrollTop = 0; } b.setAttribute('aria-expanded', o); b.setAttribute('aria-label', o ? 'Close menu' : 'Open menu'); });
   n.addEventListener('click', function(e){ if (e.target.tagName === 'A') closeMenu(); });
 
   /* reveal on scroll */
