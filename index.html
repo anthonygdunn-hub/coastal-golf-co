@@ -1618,6 +1618,12 @@ footer .base{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
   }
   function route(){
     var h = decodeURIComponent(location.hash.slice(1)); closeMenu();
+    if (window.CGC_BASE){
+      if (h.charAt(0) === '/'){ var rp = h.replace(/^\//, '').replace(/\/$/, ''); location.replace(window.CGC_BASE + (rp ? rp + '/' : '')); return; }
+      if (!current) show(Object.keys(pages)[0]);
+      var e1 = h && document.getElementById(h); if (e1) setTimeout(function(){ e1.scrollIntoView({behavior: RM ? 'auto' : 'smooth'}); }, 60);
+      return;
+    }
     if (h.charAt(0) === '/' || h === ''){
       var key = map[h.replace(/^\//, '').replace(/\/$/, '')] || 'home';
       if (!document.querySelector('.page[data-page="' + key + '"]')) key = 'home';
@@ -1655,7 +1661,8 @@ footer .base{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
 
   /* service buttons preselect the booking form */
   var sel = document.getElementById('svc');
-  document.querySelectorAll('[data-svc]').forEach(function(a){ a.addEventListener('click', function(){ sel.value = a.getAttribute('data-svc'); }); });
+  document.querySelectorAll('[data-svc]').forEach(function(a){ a.addEventListener('click', function(){ if (sel) sel.value = a.getAttribute('data-svc'); }); });
+  var bq = new URLSearchParams(location.search).get('book'); if (bq && sel) sel.value = bq;
 
   /* journal filters */
   var fb = document.querySelectorAll('.filters button');
@@ -1692,8 +1699,10 @@ footer .base{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
     cr.addEventListener('input', function(){ n = +cr.value; upd(); });
     c.addEventListener('change', upd);
     c.querySelector('.cbook').addEventListener('click', function(){
-      var f = document.getElementById('book'); f.elements['service'].value = 'Regrips'; f.elements['clubs'].value = n;
-      f.elements['discount'].selectedIndex = c._d === 20 ? 1 : 0; f.elements['message'].value = 'From the calculator: ' + c._sum + '.';
+      var v = {service: 'Regrips', clubs: n, discount: c._d === 20 ? 1 : 0, message: 'From the calculator: ' + c._sum + '.'};
+      var f = document.getElementById('book');
+      if (!f){ try { sessionStorage.setItem('cgc-prefill', JSON.stringify(v)); } catch(e){} return; }
+      window.cgcPrefill(f, v);
     });
     upd();
   });
@@ -1734,8 +1743,10 @@ footer .base{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
   document.querySelectorAll('.ba').forEach(function(b){ var i = b.querySelector('input'); i.addEventListener('input', function(){ b.style.setProperty('--p', i.value + '%'); }); });
 
   /* booking form */
+  window.cgcPrefill = function(f, v){ f.elements['service'].value = v.service; f.elements['clubs'].value = v.clubs; f.elements['discount'].selectedIndex = v.discount; f.elements['message'].value = v.message; };
   var f = document.getElementById('book'), m = document.getElementById('fmsg'), E = function(k){ return f.elements[k]; };
-  f.addEventListener('submit', function(e){
+  if (f){ try { var pf = JSON.parse(sessionStorage.getItem('cgc-prefill') || 'null'); if (pf){ sessionStorage.removeItem('cgc-prefill'); window.cgcPrefill(f, pf); } } catch(e){} }
+  if (f) f.addEventListener('submit', function(e){
     e.preventDefault();
     if (!E('name').value.trim() || !E('phone').value.trim()){ m.style.display = 'block'; m.textContent = 'Please add your name and a phone number so we can call you back.'; return; }
     var body = 'Name: ' + E('name').value + '\nPhone: ' + E('phone').value + '\nEmail: ' + E('email').value + '\nCollection postcode: ' + E('postcode').value + '\nService: ' + sel.value + '\nClubs: ' + E('clubs').value + '\nPreferred collection day: ' + E('day').value + '\nGrip preference: ' + E('grip').value + '\nDiscount: ' + E('discount').value + '\n\n' + E('message').value;
