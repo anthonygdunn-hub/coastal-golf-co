@@ -1,0 +1,60 @@
+# Switches www.coastalgolfco.co.uk from the holding page to the new website at
+# 8am UK time on Sunday 4 October 2026 (07:00 UTC). Approved by Tony, 30 Sep 2026.
+#   main   = what's live (the holding page until launch)
+#   launch = the new website, one commit ahead of main, so launching is a fast-forward
+# Run it early by hand: Actions > "Launch the new website" > Run workflow.
+# After launch it does nothing (it only acts on the morning of 4 Oct 2026, and only if main is behind launch).
+name: Launch the new website
+on:
+  schedule:
+    - cron: '40 6 4 10 *'   # 07:40 UK: starts early and waits until exactly 08:00
+    - cron: '5 7 4 10 *'    # 08:05 UK back-up, in case GitHub skips or delays a scheduled run
+    - cron: '25 7 4 10 *'   # 08:25 UK back-up
+  workflow_dispatch:
+  push:
+    branches: [launch-test] # dry run only: does the swap into the launch-dryrun branch, never main
+permissions:
+  contents: write
+  pages: write
+concurrency:
+  group: launch
+  cancel-in-progress: false
+jobs:
+  launch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - name: Wait for 8am UK time on Sunday 4 October 2026
+        if: github.event_name == 'schedule'
+        run: |
+          target=$(date -u -d '2026-10-04T07:00:00Z' +%s); now=$(date -u +%s)
+          if [ "$now" -lt $((target - 7200)) ] || [ "$now" -gt $((target + 43200)) ]; then
+            echo "Not launch morning, nothing to do"; echo "SKIP=1" >> "$GITHUB_ENV"; exit 0
+          fi
+          if [ "$now" -lt "$target" ]; then echo "Waiting $((target - now)) seconds for 08:00 UK"; sleep $((target - now)); fi
+      - name: Swap in the new website
+        if: env.SKIP != '1'
+        run: |
+          TARGET=main; [ "${{ github.event_name }}" = "push" ] && TARGET=launch-dryrun
+          git fetch origin launch
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git merge-base --is-ancestor origin/launch HEAD; then echo "The new website is already live"; echo "SKIP=1" >> "$GITHUB_ENV"; exit 0; fi
+          if git merge-base --is-ancestor HEAD origin/launch; then
+            git merge --ff-only origin/launch
+          else
+            # main moved on since launch was prepared: take launch's files as they are
+            git read-tree -u --reset origin/launch
+            git commit -m "Launch: the new Coastal Golf Co website"
+          fi
+          git push origin "HEAD:$TARGET" ${{ github.event_name == 'push' && '--force' || '' }}
+          echo "Swapped into $TARGET at $(date -u)"
+      - name: Ask GitHub Pages to rebuild
+        if: env.SKIP != '1' && github.event_name != 'push'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X POST "repos/${{ github.repository }}/pages/builds" || echo "Pages rebuilds from the push anyway"
