@@ -35,7 +35,7 @@
   var rules = [[/regrip|grip/, '#/services/regrips'], [/repair|reshaft|ferrule/, '#/services/repairs'], [/mot/, '#/services/club-mot'],
     [/tune/, '#/services/tune-up'], [/loft|lie/, '#/services/loft-and-lie'], [/pimp/, '#/services/pimp-your-gear'], [/logo|ball/, '#/services/custom-logo'],
     [/service|price/, '#/services'], [/course/, '#/courses'], [/faq|question/, '#/faq'], [/area|cover|postcode/, '#/areas'],
-    [/club|societ/, '#/services/custom-logo'], [/privacy|cookie/, '#/privacy'], [/contact|book/, '#contact']];
+    [/societ|charit/, '#/societies'], [/privacy|cookie/, '#/privacy'], [/contact|book/, '#contact']];
   for (var i = 0; i < rules.length; i++) if (rules[i][0].test(p)) { to = rules[i][1]; break; }
   var url = base + to;
   document.getElementById('go').href = url; document.getElementById('logo').src = base + 'icon-192.png';
