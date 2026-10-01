@@ -812,12 +812,13 @@ footer .base{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
 .ggres small{display:block;font:400 15px/1.5 var(--sans);color:var(--body);margin-top:6px}
 
 /* before / after */
-.ba{position:relative;border-radius:20px;overflow:hidden;background:#dcecf6;aspect-ratio:16/6;box-shadow:0 16px 36px rgba(1,22,46,.12);user-select:none}
+.ba{position:relative;border-radius:20px;overflow:hidden;background:#dcecf6;aspect-ratio:16/6;box-shadow:0 16px 36px rgba(1,22,46,.12);user-select:none;-webkit-user-select:none;cursor:ew-resize;touch-action:pan-y}
 .ba svg{position:absolute;inset:0;width:100%;height:100%}
 .ba .bb{position:absolute;inset:0;clip-path:inset(0 calc(100% - var(--p,50%)) 0 0);background:#efe7d8}
 .ba .bl{position:absolute;top:0;bottom:0;left:var(--p,50%);width:3px;margin-left:-1.5px;background:var(--gold);pointer-events:none}
 .ba .bl::after{content:"";position:absolute;top:50%;left:50%;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;background:var(--gold) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2301162e' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><path d='M9 6l-5 6 5 6M15 6l5 6-5 6'/></svg>") center/22px no-repeat;box-shadow:0 4px 12px rgba(0,0,0,.25)}
-.ba input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;margin:0;min-height:0}
+.ba input{position:absolute;inset:0;width:100%;height:100%;opacity:0;margin:0;min-height:0;pointer-events:none}
+.ba:has(input:focus-visible) .bl::after{outline:3px solid var(--navy);outline-offset:3px}
 .ba .tagl,.ba .tagr{position:absolute;top:16px;padding:6px 12px;border-radius:999px;font:600 14px/1 var(--display);letter-spacing:.08em;pointer-events:none}
 .ba .tagl{left:16px;background:#5f5a55;color:#fff}.ba .tagr{right:16px;background:var(--navy);color:#fff}
 .bacap{text-align:center;color:var(--body);font-size:15px;margin-top:12px}
@@ -1365,7 +1366,16 @@ footer .base{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
   });
 
   /* before / after */
-  document.querySelectorAll('.ba').forEach(function(b){ var i = b.querySelector('input'); i.addEventListener('input', function(){ b.style.setProperty('--p', i.value + '%'); }); });
+  /* before/after: drag anywhere on the picture (mouse or finger); the hidden range input keeps it working from the keyboard */
+  document.querySelectorAll('.ba').forEach(function(b){
+    var i = b.querySelector('input'), drag = false;
+    function set(v){ v = Math.max(2, Math.min(98, v)); i.value = v; b.style.setProperty('--p', v + '%'); }
+    function at(e){ var r = b.getBoundingClientRect(); set((e.clientX - r.left) / r.width * 100); }
+    i.addEventListener('input', function(){ set(+i.value); });
+    b.addEventListener('pointerdown', function(e){ drag = true; try { b.setPointerCapture(e.pointerId); } catch(x){} at(e); });
+    b.addEventListener('pointermove', function(e){ if (drag) at(e); });
+    ['pointerup', 'pointercancel', 'lostpointercapture'].forEach(function(t){ b.addEventListener(t, function(){ drag = false; }); });
+  });
 
   /* booking form */
   window.cgcPrefill = function(f, v){ f.elements['service'].value = v.service; f.elements['clubs'].value = v.clubs; f.elements['discount'].selectedIndex = v.discount; f.elements['message'].value = v.message; };
