@@ -1,1 +1,60 @@
-<!doctype html><html lang="en-GB"><head><meta charset="utf-8"><title>Coastal Golf Co</title><meta name="robots" content="noindex"><script>location.replace("/")</script></head><body><p><a href="/">Coastal Golf Co</a></p></body></html>
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page moved | Coastal Golf Co</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#022042">
+<style>
+  :root{--navy:#022042;--gold:#cb9a31;--cream:#f8f2e2;--body:#3b4863}
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;display:grid;place-items:center;background:var(--cream);color:var(--navy);font:400 17px/1.6 "Mulish",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;padding:24px 16px;text-align:center}
+  main{max-width:520px}
+  img{width:150px;height:150px;border-radius:50%;box-shadow:0 0 0 4px #fff,0 12px 28px rgba(1,22,46,.18)}
+  h1{font:700 clamp(30px,7vw,44px)/1.05 "Oswald",Impact,"Arial Narrow",sans-serif;text-transform:uppercase;letter-spacing:.02em;margin:26px 0 10px}
+  p{color:var(--body);margin:0 0 22px}
+  a.btn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 28px;border-radius:999px;background:var(--navy);color:#fff;font-weight:800;text-decoration:none;letter-spacing:.04em;text-transform:uppercase;font-size:16px}
+  a.btn:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+  small{display:block;margin-top:18px;color:var(--body)}
+  small a{color:var(--navy);font-weight:700}
+</style>
+</head>
+<body>
+<main>
+  <img id="logo" src="icon-192.png" alt="Coastal Golf Co" width="150" height="150">
+  <h1>This page has moved</h1>
+  <p>We have a new website. Taking you to the right place now.</p>
+  <a class="btn" id="go" href="/">Go to Coastal Golf Co</a>
+  <small>Or call Stuart on <a href="tel:+447792554989">07792 554989</a></small>
+</main>
+<script>
+(function(){
+  var base = location.hostname.slice(-10) === 'github.io' ? '/' + location.pathname.split('/')[1] + '/' : '/';
+  var p = location.pathname.toLowerCase(), to = '';
+  var rules = [[/regrip|grip/, 'services/regrips/'], [/repair|reshaft|ferrule/, 'services/repairs/'], [/mot/, 'services/club-mot/'],
+    [/tune/, 'services/tune-up/'], [/loft|lie/, 'services/loft-and-lie/'], [/pimp/, 'services/pimp-your-gear/'], [/logo|ball/, 'services/custom-logo/'],
+    [/service|price/, 'services/'], [/course/, 'courses/'], [/faq|question/, 'faq/'], [/area|cover|postcode/, 'areas/'],
+    [/societ|charit/, 'societies/'], [/privacy|cookie/, 'privacy/'], [/contact|book/, '#contact']];
+  for (var i = 0; i < rules.length; i++) if (rules[i][0].test(p)) { to = rules[i][1]; break; }
+  var url = base + to;
+  document.getElementById('go').href = url; document.getElementById('logo').src = base + 'icon-192.png';
+  setTimeout(function(){ location.replace(url); }, 2500);
+})();
+</script>
+<script>/* Visit counter by Dunnworks: no cookies, nothing kept on your device. Add ?nocount to stop counting this device. */
+(function(){try{var L=location,N=navigator,K='cgc-nocount';
+if(!/(^|\.)coastalgolfco\.co\.uk$/.test(L.hostname)||N.webdriver)return;
+try{if(/[?&]nocount\b/.test(L.search))localStorage.setItem(K,'1');if(localStorage.getItem(K))return;}catch(e){}
+var U='https://acdpgarasgfhvupzsbxf.supabase.co/functions/v1/cgc-track',v=null,t0=0,last='';
+function send(o){var b=JSON.stringify(o);try{if(N.sendBeacon&&N.sendBeacon(U,b))return;}catch(e){}try{fetch(U,{method:'POST',body:b,keepalive:true,mode:'no-cors'});}catch(e){}}
+function leave(){if(v){send({t:'leave',v:v,ms:Date.now()-t0});v=null;}}
+function view(){var p=/^#\//.test(L.hash)?L.pathname.replace(/\/$/,'')+L.hash.slice(1):L.pathname;if(p===last)return;leave();last=p;
+v=Math.random().toString(36).slice(2)+Date.now().toString(36);t0=Date.now();
+var u='';try{u=new URLSearchParams(L.search).get('utm_source')||'';}catch(e){}
+send({t:'view',v:v,p:p,r:document.referrer,u:u,w:innerWidth});}
+view();addEventListener('hashchange',view);addEventListener('pagehide',leave);
+document.addEventListener('visibilitychange',function(){if(document.visibilityState==='hidden')leave();});
+}catch(e){}})();</script>
+</body>
+</html>
