@@ -1521,7 +1521,7 @@ footer .base{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
     if (!E('name').value.trim() || !E('phone').value.trim()){ m.style.display = 'block'; m.textContent = 'Please add your name and a phone number so we can call you back.'; return; }
     var viaMail = function(){ location.href = 'mailto:hello@coastalgolfco.co.uk?subject=' + encodeURIComponent('Booking request: ' + sel.value) + '&body=' + encodeURIComponent(body); };
     var body = 'Name: ' + E('name').value + '\nPhone: ' + E('phone').value + '\nEmail: ' + E('email').value + '\nCollection postcode: ' + E('postcode').value + '\nService: ' + sel.value + '\nClubs: ' + E('clubs').value + '\nPreferred collection day: ' + E('day').value + '\nGrip preference: ' + E('grip').value + '\nDiscount: ' + E('discount').value + '\n\n' + E('message').value;
-    var D = '__DIRECT__';
+    var D = 'https://acdpgarasgfhvupzsbxf.supabase.co/functions/v1/cgc-booking|sb_publishable_OWTVpDyadL1lITnCp4gfAQ_EZxVHldY';
     if (D.indexOf('__') !== 0){
       var cfg = D.split('|'), btn = f.querySelector('button[type=submit]'); btn.disabled = true; m.style.display = 'block'; m.textContent = 'Sending...';
       fetch(cfg[0], { method: 'POST', headers: { apikey: cfg[1], Authorization: 'Bearer ' + cfg[1], 'Content-Type': 'application/json' },
