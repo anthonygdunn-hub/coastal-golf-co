@@ -804,6 +804,7 @@ footer .base{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
 .calc{display:grid;grid-template-columns:1.25fr 1fr;gap:0;margin-top:40px;border-radius:20px;overflow:hidden;box-shadow:0 20px 44px rgba(1,22,46,.12);border:1px solid var(--line)}
 .calc-in{background:var(--card);padding:36px;display:flex;flex-direction:column;gap:22px}
 .calc-in h3{font-size:30px}
+.calc .cbfnote{margin:0;font-size:14px;font-weight:700;color:#b3261e}
 .calc .lbl{font-weight:800;font-size:15px;margin-bottom:10px;display:block}
 .stepper{display:flex;align-items:center;gap:14px}
 .stepper button{width:48px;height:48px;border-radius:50%;border:2px solid var(--navy);background:var(--card);font:700 24px/1 var(--display);color:var(--navy);cursor:pointer}
@@ -1061,6 +1062,10 @@ footer .base{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
       });
     };
     window.CGC_BFP();
+    /* the under-17s discount doesn't stack with the sale */
+    var w2 = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT), jn = [], n2;
+    while ((n2 = w2.nextNode())) if (/20% off (for )?under[- ]17s|Under-17s get 20% off|^For all juniors under 17$/i.test(n2.nodeValue) && !/Black Friday/.test(n2.nodeValue)) jn.push(n2);
+    jn.forEach(function(t){ t.nodeValue = t.nodeValue.replace(/\.?\s*$/, '') + ' (not during the Black Friday sale)' + (/\.\s*$/.test(t.nodeValue) ? '. ' : ''); });
   })();
 
 (function(){
@@ -1402,6 +1407,7 @@ footer .base{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
       var g = c.querySelector('input[type=radio]:checked'), p = +g.value, name = g.getAttribute('data-name');
       var free = Math.floor(n / 7), put = c.querySelector('.cpt').checked ? +(c.querySelector('.cprow [data-kn]').textContent) || 18 : 0, d = +c.querySelector('.cdisc').value;
       var bf = window.CGC_BF, std = g.getAttribute('data-kn') === 'calc.std', bfs = bf ? (std ? (n - free) * p * bf.g / 100 : 0) + put * bf.p / 100 : 0;
+      if (bf){ var ds = c.querySelector('.cdisc'); ds.value = '0'; ds.disabled = true; d = 0; var nt = c.querySelector('.cbfnote'); if (nt) nt.hidden = false; }
       var sub = n * p - free * p + put - bfs, disc = sub * d / 100, after = sub - disc, coll = after >= (window.CGC_N ? CGC_N('calc.freeover', 40) : 40) ? 0 : (window.CGC_N ? CGC_N('calc.delivery', 5) : 5), tot = after + coll;
       cn.textContent = n; cr.value = n;
       c.querySelector('.c1').textContent = n + ' × ' + name; c.querySelector('.c1v').textContent = money(n * p);
