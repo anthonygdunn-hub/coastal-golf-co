@@ -392,6 +392,7 @@ footer .base a{color:inherit}
 .bfbar .bfd{color:#d6dee8;font-weight:600}
 .bfbar .bfgo{display:inline-flex;align-items:center;gap:6px;color:var(--gold2);text-decoration:underline;text-underline-offset:3px}
 .bfbar:hover .bfgo{color:#fff}
+html.bf-on [data-nobf]{display:none!important}
 .bfp{background:#0b0f17;color:#fff;padding:64px 0;border-top:6px solid var(--gold);border-bottom:6px solid var(--gold)}
 .bfp[hidden]{display:none}
 .bfp-in{display:flex;align-items:center;justify-content:space-between;gap:48px}
@@ -1058,10 +1059,23 @@ footer .base{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
       });
     };
     window.CGC_BFP();
-    /* the under-17s discount doesn't stack with the sale */
-    var w2 = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT), jn = [], n2;
-    while ((n2 = w2.nextNode())) if (/20% off (for )?under[- ]17s|Under-17s get 20% off|^For all juniors under 17$/i.test(n2.nodeValue) && !/Black Friday/.test(n2.nodeValue)) jn.push(n2);
-    jn.forEach(function(t){ t.nodeValue = t.nodeValue.replace(/\.?\s*$/, '') + ' (not during the Black Friday sale)' + (/\.\s*$/.test(t.nodeValue) ? '. ' : ''); });
+    /* during the sale the 7th-free and under-17s offers don't apply: hide them everywhere; they come back by themselves after the sale */
+    var OFF = /\b7th\b|seventh|under[- ]?17|junior discount|juniors? 20%/i;
+    var bfo0 = window.CGC_BFP;
+    window.CGC_BFP = function(){
+      bfo0();
+      var w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT), hits = [], nd;
+      while ((nd = w.nextNode())) if (OFF.test(nd.nodeValue) && !nd.parentNode.closest('script,style,title,[data-nobf],.bfp,.bfbar,.calc')) hits.push(nd);
+      hits.forEach(function(t){
+        var box = t.parentNode.closest('details,.prow,.fact,.offer');
+        if (box) { box.setAttribute('data-nobf', ''); return; }
+        var v = t.nodeValue.replace(/,\s*with the 7th free/i, ''), keep = v.split(/(?<=[.!?])\s+|\s+·\s+/).filter(function(x){ return !OFF.test(x); });
+        t.nodeValue = keep.join(' ');
+        if (!t.parentNode.textContent.trim()) t.parentNode.setAttribute('data-nobf', '');
+      });
+      document.querySelectorAll('.offers,.facts').forEach(function(o){ if (![].some.call(o.children, function(x){ return !x.hasAttribute('data-nobf'); })) o.setAttribute('data-nobf', ''); });
+    };
+    window.CGC_BFP();
   })();
 
 (function(){
@@ -1401,7 +1415,7 @@ footer .base{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
     var n = 7, cn = c.querySelector('.cn'), cr = c.querySelector('.cr');
     function upd(){
       var g = c.querySelector('input[type=radio]:checked'), p = +g.value, name = g.getAttribute('data-name');
-      var free = Math.floor(n / 7), put = c.querySelector('.cpt').checked ? +(c.querySelector('.cprow [data-kn]').textContent) || 18 : 0, d = +c.querySelector('.cdisc').value;
+      var free = window.CGC_BF ? 0 : Math.floor(n / 7), put = c.querySelector('.cpt').checked ? +(c.querySelector('.cprow [data-kn]').textContent) || 18 : 0, d = +c.querySelector('.cdisc').value;
       var bf = window.CGC_BF, std = g.getAttribute('data-kn') === 'calc.std', bfs = bf ? (std ? (n - free) * p * bf.g / 100 : 0) + put * bf.p / 100 : 0;
       if (bf){ var ds = c.querySelector('.cdisc'); ds.value = '0'; ds.disabled = true; d = 0; var nt = c.querySelector('.cbfnote'); if (nt) nt.hidden = false; }
       var sub = n * p - free * p + put - bfs, disc = sub * d / 100, after = sub - disc, coll = after >= (window.CGC_N ? CGC_N('calc.freeover', 40) : 40) ? 0 : (window.CGC_N ? CGC_N('calc.delivery', 5) : 5), tot = after + coll;
@@ -1409,7 +1423,7 @@ footer .base{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
       c.querySelector('.c1').textContent = n + ' × ' + name; c.querySelector('.c1v').textContent = money(n * p);
       c.querySelector('.c2').textContent = free ? (free > 1 ? free + ' clubs free' : '7th club free') : 'Add ' + (7 - n) + ' more for one free';
       c.querySelector('.c2v').textContent = free ? '−' + money(free * p) : '';
-      c.querySelector('.cprow').hidden = !put;
+      c.querySelector('.cprow').hidden = !put; c.querySelector('.c2row').hidden = !!window.CGC_BF;
       c.querySelector('.cbfrow').hidden = !bfs; c.querySelector('.cbfv').textContent = '−' + money(bfs);
       c.querySelector('.cdrow').hidden = !d; c.querySelector('.c3').textContent = 'Discount (' + d + '%)'; c.querySelector('.c3v').textContent = '−' + money(disc);
       c.querySelector('.c4v').textContent = coll ? money(coll) : 'Free';
