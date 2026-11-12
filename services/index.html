@@ -393,7 +393,23 @@ footer .base a{color:inherit}
 .bfbar .bfd{color:#d6dee8;font-weight:600}
 .bfbar .bfgo{display:inline-flex;align-items:center;gap:6px;color:var(--gold2);text-decoration:underline;text-underline-offset:3px}
 .bfbar:hover .bfgo{color:#fff}
-html.bf-on [data-nobf]{display:none!important}
+html.bf-pause [data-nobf]{display:none!important}
+/* this week's offers, from Stuart's editor (cgc_content key "offers") */
+.wo{background:var(--cream);padding:64px 0;border-bottom:1px solid var(--line)}
+.wo-h{text-align:center;margin-bottom:26px}
+.wo-k{display:block;font:400 clamp(22px,3vw,30px)/1.1 var(--script);color:var(--bronze-t)}
+.wo-h h2{font:700 clamp(40px,6vw,64px)/1 var(--display);text-transform:uppercase;color:var(--navy);margin:6px 0 0}
+.wo-l{display:grid;gap:12px;max-width:860px;margin:0 auto}
+.wo-r{display:grid;grid-template-columns:1fr auto auto;gap:6px 18px;align-items:center;background:var(--card);border:1px solid var(--line);border-left:6px solid var(--gold);border-radius:14px;padding:16px 20px}
+.wo-r b{font:800 clamp(17px,2.2vw,21px)/1.25 var(--sans);color:var(--navy)}
+.wo-q{font:700 14px/1 var(--display);letter-spacing:.06em;text-transform:uppercase;color:var(--navy);background:var(--sand-t);border-radius:999px;padding:7px 12px;white-space:nowrap}
+.wo-q.low{background:#f6dcd9;color:#b3261e}
+.wo-p{text-align:right;white-space:nowrap}
+.wo-p s{color:#8a93a6;font-weight:800;margin-right:8px}
+.wo-p em{font:700 clamp(26px,3.4vw,34px)/1 var(--display);font-style:normal;color:#b3261e}
+.wo-f{display:flex;flex-direction:column;align-items:center;gap:16px;margin-top:22px;text-align:center}
+.wo-n{margin:0;font-weight:800;color:var(--bronze-t)}
+@media(max-width:560px){.wo-r{grid-template-columns:1fr auto}.wo-q{grid-column:1;justify-self:start}.wo-p{grid-row:1/3;grid-column:2}}
 .bfp{background:#0b0f17;color:#fff;padding:64px 0;border-top:6px solid var(--gold);border-bottom:6px solid var(--gold)}
 .bfp[hidden]{display:none}
 .bfp-in{display:flex;align-items:center;justify-content:space-between;gap:48px}
@@ -968,7 +984,7 @@ footer .base{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
 </defs></svg>
 
 <a class="skip" href="#main">Skip to content</a>
-<a class="bfbar" href="/services/regrips/" hidden data-bf><b>BLACK FRIDAY</b><span>20% off all grips · 10% off putter grips</span><span class="bfd">Until Fri 4 Dec</span><span class="bfgo">Book now<svg class="i"><use href="#arrow"/></svg></span></a>
+<a class="bfbar" href="/services/regrips/" hidden data-bf><b><span data-sale="NAME">BLACK FRIDAY</span></b><span><span data-sale="g">20</span>% off all grips · <span data-sale="p">10</span>% off putter grips</span><span class="bfd">Until <span data-sale="until">Fri 4 Dec</span></span><span class="bfgo">Book now<svg class="i"><use href="#arrow"/></svg></span></a>
 <div class="topbar"><div class="wrap">
   <div class="l"><span><svg class="i"><use href="#pin"/></svg>Cranleigh to the coast</span><span><svg class="i"><use href="#truck"/></svg>Collection &amp; delivery available</span></div>
   <div class="r"><a href="mailto:hello@coastalgolfco.co.uk">hello@coastalgolfco.co.uk</a><a href="https://www.instagram.com/coastalgolfco.co.uk/" aria-label="Instagram"><svg class="i" style="color:inherit"><use href="#insta"/></svg></a><a href="https://www.facebook.com/CoastalGolfCo" aria-label="Facebook"><svg class="i" style="color:inherit"><use href="#fb"/></svg></a></div>
@@ -995,7 +1011,7 @@ footer .base{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
       <div class="fact" data-r><span class="ring"><svg class="i"><use href="#truck"/></svg></span><h3>WE COME TO YOU</h3><p>Collection and delivery from Cranleigh to the coast, from your home or work.</p></div>
       <div class="fact" data-r data-nobf style="--d:.1s"><span class="ring"><svg class="i"><use href="#users"/></svg></span><h3>JUNIORS 20% OFF</h3><p>Every junior under 17 gets 20% off. Need it fast? Ask about express.</p></div>
       <div class="fact" data-r data-nobf style="--d:.2s"><span class="ring"><svg class="i"><use href="#gift"/></svg></span><h3>7TH REGRIP FREE</h3><p>Buy six regrips, get the seventh free, on any grips.</p></div>
-      <div class="fact" data-r data-bf hidden style="--d:.1s"><span class="ring"><svg class="i"><use href="#grip"/></svg></span><h3>BLACK FRIDAY GRIP SALE</h3><p>20% off grips and 10% off putter grips until Fri 4 Dec. Price per club, fitted.</p></div>
+      <div class="fact" data-r data-bf hidden style="--d:.1s"><span class="ring"><svg class="i"><use href="#grip"/></svg></span><h3><span data-sale="NAME">BLACK FRIDAY</span> GRIP SALE</h3><p><span data-sale="g">20</span>% off grips and <span data-sale="p">10</span>% off putter grips until <span data-sale="until">Fri 4 Dec</span>. Price per club, fitted.</p></div>
       <div class="fact" data-r data-bf hidden style="--d:.2s"><span class="ring"><svg class="i"><use href="#clock"/></svg></span><h3>BACK IN 72 HOURS</h3><p>For most regrips and repairs.</p></div>
     </div>
     <div class="head" data-r style="margin-top:90px"><h2>PRICES</h2></div>
@@ -1008,14 +1024,14 @@ footer .base{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
       <input type="range" class="cr" min="1" max="14" value="7" aria-labelledby="clh"></div>
     <div><span class="lbl">Grip type</span><div class="chipset" role="radiogroup"><label><input type="radio" name="gh" value="8" data-kn="calc.std" data-name="Our grips, any size" checked><span>Our grips, any size</span><b>£<span data-kn="calc.std">8</span></b></label><label><input type="radio" name="gh" value="4" data-kn="calc.own" data-name="Your own grips"><span>Your own grips</span><b>£<span data-kn="calc.own">4</span></b></label></div></div>
     <label class="chk"><input type="checkbox" class="cpt">Add a putter grip (from £<span data-kn="calc.putter">18</span>)</label>
-    <p class="cbfnote" hidden>Black Friday prices, per club, fitted.</p>
+    <p class="cbfnote" hidden><span data-sale="name">Black Friday</span> prices, per club, fitted.</p>
     <label data-nobf>Discount<select class="cdisc"><option value="0">No discount</option><option value="20">Under 17 (20%)</option></select></label>
   </div>
   <div class="calc-out" aria-live="polite">
     <h4>YOUR GUIDE PRICE</h4>
     <div class="crow"><span class="c1">7 × Our grips, any size</span><span class="c1v">£56</span></div>
     <div class="crow save c2row"><span class="c2">7th club free</span><span class="c2v">−£8</span></div>
-    <div class="crow save cbfrow" hidden><span>Black Friday saving</span><span class="cbfv"></span></div>
+    <div class="crow save cbfrow" hidden><span><span data-sale="name">Black Friday</span> saving</span><span class="cbfv"></span></div>
     <div class="crow cprow" hidden><span>Putter grip</span><span>£<span data-kn="calc.putter">18</span></span></div>
     <div class="crow save cdrow" hidden><span class="c3">Discount</span><span class="c3v"></span></div>
     <div class="crow"><span>Collection &amp; delivery</span><span class="c4v">Free</span></div>
@@ -1046,7 +1062,7 @@ footer .base{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
       <div><span>Follow</span><a href="https://www.instagram.com/coastalgolfco.co.uk/">Instagram @coastalgolfco.co.uk</a><a href="https://www.facebook.com/CoastalGolfCo">Facebook CoastalGolfCo</a></div>
     </div>
   </div>
-  <div class="base"><span>© 2026 Coastal Golf Co, the trading name of Stuart Horne · Established 4 October 2026</span><span><a href="/privacy/">Privacy</a> · <a href="#cookies" data-ck="open" class="ck-link">Cookie settings</a> · Website by Dunnworks</span></div>
+  <div class="base"><span>© 2026 Coastal Golf Co, the trading name of Stuart Horne · Established 4 October 2026</span><span><a href="/privacy/">Privacy</a> · <a href="#cookies" data-ck="open" class="ck-link">Cookie settings</a> · Website by Dunnworks · <a href="https://dunnworks.io/editor/coastal-golf-co/" rel="nofollow">Admin login</a></span></div>
 </div></footer>
 <div class="mbar"><a class="btn btn-gold" href="tel:+447792554989"><svg class="i"><use href="#phone"/></svg>Call</a><a class="btn btn-line" href="https://wa.me/447792554989" aria-label="Chat on WhatsApp"><svg class="i"><use href="#wa"/></svg>Chat</a><a class="btn btn-navy" href="/#contact">Book</a></div>
 <a class="waball" href="https://wa.me/447792554989" target="_blank" rel="noopener" aria-label="Chat with us on WhatsApp">
@@ -1059,15 +1075,28 @@ footer .base{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
   <div class="ck-b"><button type="button" class="btn btn-line" data-ck="no">Reject</button><button type="button" class="btn btn-gold" data-ck="yes">Accept</button></div></div>
 </div>
 <script>
-  /* Black Friday: shown only between the sale dates (UK time), then everything goes back to normal by itself */
+  /* The sale: shown only between the sale dates (UK time), then everything goes back to normal by itself.
+     Stuart sets it in his editor (cgc_content key "sale"); the last-seen settings are kept in this browser. */
   (function(){
-    var s = Date.UTC(2026, 10, 23), e = Date.UTC(2026, 11, 4) + 864e5, q = /[?&]bf=([01])/.exec(location.search);
-    var on = q ? q[1] === '1' : (Date.now() >= s && Date.now() < e);
+    var C = {on: true, name: 'Black Friday', start: '2026-11-23', end: '2026-12-04', g: 20, p: 10, pause: true}, raw = '';
+    try { raw = (JSON.parse(localStorage.getItem('cgc-kv') || '{}') || {}).sale || ''; if (raw) { var o = JSON.parse(raw); for (var k in o) C[k] = o[k]; } } catch(e){}
+    window.CGC_SALE_RAW = raw;
+    var today = new Intl.DateTimeFormat('en-CA', {timeZone: 'Europe/London', year: 'numeric', month: '2-digit', day: '2-digit'}).format(new Date());
+    var q = /[?&]bf=([01])/.exec(location.search);
+    var on = q ? q[1] === '1' : (!!C.on && today >= C.start && today <= C.end);
     if (!on) return;
-    window.CGC_BF = {g: 20, p: 10};
-    document.documentElement.classList.add('bf-on');
+    window.CGC_BF = {g: +C.g || 0, p: +C.p || 0, pause: !!C.pause, name: C.name || 'Sale'};
+    document.documentElement.classList.add('bf-on'); if (C.pause) document.documentElement.classList.add('bf-pause');
+    var D = new Date(C.end + 'T12:00:00Z'), WD = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'], WL = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
+        MS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'], ML = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    function lng(d){ return WL[d.getUTCDay()] + ' ' + d.getUTCDate() + ' ' + ML[d.getUTCMonth()]; }
+    var F = {name: C.name || 'Sale', NAME: (C.name || 'Sale').toUpperCase(), g: String(+C.g || 0), p: String(+C.p || 0),
+             until: WD[D.getUTCDay()] + ' ' + D.getUTCDate() + ' ' + MS[D.getUTCMonth()], short: D.getUTCDate() + ' ' + MS[D.getUTCMonth()], long: lng(D),
+             dates: lng(new Date(C.start + 'T12:00:00Z')) + ' to ' + lng(D)};
+    document.querySelectorAll('[data-sale]').forEach(function(el){ var v = F[el.getAttribute('data-sale')]; if (v != null) el.textContent = v; });
     document.querySelectorAll('[data-bf]').forEach(function(el){ el.hidden = false; });
-    var KEYS = {'svc.regrips.price': 20, 'price.regrips.regrip-any-size.price': 20, 'price.regrips.putter-grip.price': 10};
+    var G = +C.g || 0, P = +C.p || 0;
+    var KEYS = {'svc.regrips.price': G, 'price.regrips.regrip-any-size.price': G, 'price.regrips.putter-grip.price': P};
     function esc(t){ return t.replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
     window.CGC_BFP = function(){
       Object.keys(KEYS).forEach(function(k){
@@ -1086,13 +1115,14 @@ footer .base{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
       var w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT), hits = [], nd;
       while ((nd = w.nextNode())) if (/egrips? from £\d/.test(nd.nodeValue) && !nd.parentNode.closest('s,script,style,[data-k]')) hits.push(nd);
       hits.forEach(function(t){
-        var m = /(egrips? from )£(\d+(?:\.\d+)?)/.exec(t.nodeValue), v = Math.round(parseFloat(m[2]) * (100 - 20)) / 100;
+        var m = /(egrips? from )£(\d+(?:\.\d+)?)/.exec(t.nodeValue), v = Math.round(parseFloat(m[2]) * (100 - G)) / 100;
         var sp = document.createElement('span'), a = t.nodeValue.slice(0, m.index + m[1].length), z = t.nodeValue.slice(m.index + m[0].length);
         sp.innerHTML = esc(a) + '<s>£' + m[2] + '</s> <b class="bfnow">£' + (v % 1 ? v.toFixed(2) : String(v)) + '</b>' + esc(z);
         t.parentNode.replaceChild(sp, t);
       });
     };
     window.CGC_BFP();
+    if (!C.pause) return;
     /* during the sale the 7th-free and under-17s offers don't apply: hide them everywhere; they come back by themselves after the sale */
     var OFF = /\b7th\b|seventh|under[- ]?17|junior discount|juniors? 20%/i;
     var bfo0 = window.CGC_BFP;
@@ -1352,7 +1382,24 @@ footer .base{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
       if (el.tagName === 'INPUT') el.value = parseFloat(v); else el.textContent = knum(v);
     });
     if (window.CGC_BFP) CGC_BFP();
+    offers();
     document.querySelectorAll('.calc').forEach(function(c){ c.dispatchEvent(new Event('change')); });
+  }
+  /* this week's offers: a list Stuart keeps in his editor; hidden when it's empty or switched off */
+  function offers(){
+    var box = document.getElementById('deals'); if (!box) return;
+    var o = null; try { o = KV.offers ? JSON.parse(KV.offers) : null; } catch(e){}
+    var items = o && o.show !== false ? (o.items || []).filter(function(x){ return x && String(x.p || '').trim(); }) : [];
+    box.hidden = !items.length; if (!items.length) return;
+    function m(v){ v = String(v == null ? '' : v).replace(/[£,\s]/g, ''); if (!v) return ''; var n = parseFloat(v); return isNaN(n) ? '' : '£' + (n % 1 ? n.toFixed(2) : String(n)); }
+    box.querySelector('[data-o="title"]').textContent = o.title || 'Special offers';
+    box.querySelector('[data-o="sub"]').textContent = o.sub || '';
+    box.querySelector('[data-o="note"]').textContent = o.note || '';
+    document.getElementById('wol').innerHTML = items.map(function(x){
+      var w = m(x.w), n = m(x.n), q = String(x.q == null ? '' : x.q).trim();
+      return '<div class="wo-r"><b>' + jesc(String(x.p).trim()) + '</b>' + (q ? '<span class="wo-q' + (parseFloat(q) <= 2 ? ' low' : '') + '">' + jesc(q) + ' left</span>' : '<span></span>') +
+        '<span class="wo-p">' + (w && n ? '<s>' + w + '</s>' : '') + '<em>' + (n || w) + '</em></span></div>';
+    }).join('');
   }
   try { KV = JSON.parse(localStorage.getItem('cgc-kv') || '{}') || {}; } catch(e){ KV = {}; }
   if (Object.keys(KV).length) applyKV();
@@ -1360,6 +1407,7 @@ footer .base{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
     .then(function(r){ if (!r.ok) throw 0; return r.json(); })
     .then(function(rows){ var fresh = {}; rows.forEach(function(x){ fresh[x.key] = x.value; }); var had = KV; KV = fresh;
       try { localStorage.setItem('cgc-kv', JSON.stringify(fresh)); } catch(e){}
+      if ((fresh.sale || '') !== (window.CGC_SALE_RAW || '') && document.querySelector('[data-bf]')) { location.reload(); return; }
       if (Object.keys(fresh).length || Object.keys(had).length){ if (Object.keys(had).some(function(k){ return !(k in fresh); })) location.reload(); else applyKV(); } })
     .catch(function(){});
 
@@ -1449,15 +1497,15 @@ footer .base{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
     var n = 7, cn = c.querySelector('.cn'), cr = c.querySelector('.cr');
     function upd(){
       var g = c.querySelector('input[type=radio]:checked'), p = +g.value, name = g.getAttribute('data-name');
-      var free = window.CGC_BF ? 0 : Math.floor(n / 7), put = c.querySelector('.cpt').checked ? +(c.querySelector('.cprow [data-kn]').textContent) || 18 : 0, d = +c.querySelector('.cdisc').value;
+      var pz = window.CGC_BF && window.CGC_BF.pause, free = pz ? 0 : Math.floor(n / 7), put = c.querySelector('.cpt').checked ? +(c.querySelector('.cprow [data-kn]').textContent) || 18 : 0, d = +c.querySelector('.cdisc').value;
       var bf = window.CGC_BF, std = g.getAttribute('data-kn') === 'calc.std', bfs = bf ? (std ? (n - free) * p * bf.g / 100 : 0) + put * bf.p / 100 : 0;
-      if (bf){ var ds = c.querySelector('.cdisc'); ds.value = '0'; ds.disabled = true; d = 0; var nt = c.querySelector('.cbfnote'); if (nt) nt.hidden = false; }
+      if (pz){ var ds = c.querySelector('.cdisc'); ds.value = '0'; ds.disabled = true; d = 0; } if (bf){ var nt = c.querySelector('.cbfnote'); if (nt) nt.hidden = false; }
       var sub = n * p - free * p + put - bfs, disc = sub * d / 100, after = sub - disc, coll = after >= (window.CGC_N ? CGC_N('calc.freeover', 40) : 40) ? 0 : (window.CGC_N ? CGC_N('calc.delivery', 5) : 5), tot = after + coll;
       cn.textContent = n; cr.value = n;
       c.querySelector('.c1').textContent = n + ' × ' + name; c.querySelector('.c1v').textContent = money(n * p);
       c.querySelector('.c2').textContent = free ? (free > 1 ? free + ' clubs free' : '7th club free') : 'Add ' + (7 - n) + ' more for one free';
       c.querySelector('.c2v').textContent = free ? '−' + money(free * p) : '';
-      c.querySelector('.cprow').hidden = !put; c.querySelector('.c2row').hidden = !!window.CGC_BF;
+      c.querySelector('.cprow').hidden = !put; c.querySelector('.c2row').hidden = !!pz;
       c.querySelector('.cbfrow').hidden = !bfs; c.querySelector('.cbfv').textContent = '−' + money(bfs);
       c.querySelector('.cdrow').hidden = !d; c.querySelector('.c3').textContent = 'Discount (' + d + '%)'; c.querySelector('.c3v').textContent = '−' + money(disc);
       c.querySelector('.c4v').textContent = coll ? money(coll) : 'Free';
