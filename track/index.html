@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Track your clubs | Coastal Golf Co</title>
+<link rel="icon" href="/favicon-32.png">
+<style>
+:root{--navy:#022042;--gold:#cb9a31;--cream:#f8f2e2;--card:#fffdf7;--line:#e6dcc3;--body:#3b4863;--green:#1d6b3a}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:var(--cream);color:var(--navy);font:400 17px/1.55 Mulish,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;padding:24px 16px}
+main{max-width:520px;margin:0 auto}
+.top{display:flex;gap:12px;align-items:center;margin-bottom:22px}
+.top img{width:56px;height:56px;border-radius:50%;box-shadow:0 0 0 3px #fff}
+.top b{font:700 22px/1 Oswald,Impact,"Arial Narrow",sans-serif;text-transform:uppercase;letter-spacing:.02em}
+h1{font:700 32px/1.1 Oswald,Impact,"Arial Narrow",sans-serif;text-transform:uppercase;margin:0 0 6px}
+p{color:var(--body);margin:0 0 12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin-top:16px}
+ol{list-style:none;margin:0;padding:0}
+li{display:flex;gap:14px;align-items:flex-start;padding:10px 0;position:relative}
+li:not(:last-child)::after{content:"";position:absolute;left:15px;top:42px;bottom:-8px;width:2px;background:var(--line)}
+li i{flex:none;width:32px;height:32px;border-radius:50%;border:2px solid var(--line);background:#fff;display:grid;place-items:center;font-style:normal;font-weight:800;color:var(--line)}
+li.done i{background:var(--green);border-color:var(--green);color:#fff}
+li.now i{background:var(--gold);border-color:var(--gold);color:var(--navy)}
+li b{display:block;font-size:17px}li span{font-size:14.5px;color:var(--body)}
+li.todo b{color:#9aa3b5}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:0 22px;border-radius:999px;background:var(--navy);color:#fff;font-weight:800;text-decoration:none;margin:6px 8px 0 0}
+.btn.wa{background:#25d366;color:#05371a}
+small{display:block;color:var(--body);margin-top:18px;font-size:13px}
+</style>
+</head>
+<body>
+<main>
+  <div class="top"><img src="/icon-192.png" alt=""><b>Coastal Golf Co</b></div>
+  <h1 id="h">Your clubs</h1>
+  <p id="sub">Checking…</p>
+  <div class="card" id="card" hidden><ol id="steps"></ol></div>
+  <div style="margin-top:18px"><a class="btn" href="tel:07792554989">Call Stuart</a><a class="btn wa" href="https://wa.me/447792554989">WhatsApp</a></div>
+  <small>Coastal Golf Co, the trading name of Stuart Horne · <a href="/" style="color:inherit">coastalgolfco.co.uk</a></small>
+</main>
+<script>
+(function(){
+  var t = new URLSearchParams(location.search).get('t') || '';
+  var STEPS = [['booked', 'Booked in', 'We\'ll collect your clubs'], ['collected', 'Collected', 'Your clubs are with us'], ['in the workshop', 'In the workshop', 'Being worked on now'], ['ready', 'Ready', 'Done and checked'], ['returned', 'Back with you', 'Enjoy your next round']];
+  function day(d){ return d ? new Date(d + 'T12:00:00Z').toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' }) : ''; }
+  function esc(s){ return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
+  if (!/^[0-9a-f]{20,}$/.test(t)) { document.getElementById('sub').textContent = 'This tracking link doesn\'t look right. Message Stuart and he\'ll let you know how your clubs are getting on.'; return; }
+  fetch('https://acdpgarasgfhvupzsbxf.supabase.co/rest/v1/rpc/cgc_track', { method: 'POST', headers: { apikey: 'sb_publishable_OWTVpDyadL1lITnCp4gfAQ_EZxVHldY', 'Content-Type': 'application/json' }, body: JSON.stringify({ t: t }) })
+    .then(function(r){ return r.json(); }).then(function(j){
+      if (!j || !j.status) { document.getElementById('sub').textContent = 'We couldn\'t find that job. Message Stuart and he\'ll let you know how your clubs are getting on.'; return; }
+      var at = STEPS.map(function(s){ return s[0]; }).indexOf(j.status);
+      document.getElementById('h').textContent = (j.first ? j.first + ', y' : 'Y') + 'our clubs';
+      document.getElementById('sub').textContent = [j.service, j.clubs ? j.clubs + ' clubs' : ''].filter(Boolean).join(' · ') || 'Your job with Coastal Golf Co';
+      document.getElementById('steps').innerHTML = STEPS.map(function(s, i){
+        var note = s[2];
+        if (s[0] === 'booked' && j.collect_on) note = (i < at ? 'Collected ' : 'Collection ') + day(j.collect_on);
+        if (s[0] === 'returned' && j.return_on) note = (at === 4 ? 'Returned ' : 'Back by ') + day(j.return_on);
+        return '<li class="' + (i < at || (i === at && at === 4) ? 'done' : i === at ? 'now' : 'todo') + '"><i>' + (i < at || at === 4 ? '✓' : i + 1) + '</i><div><b>' + esc(s[1]) + '</b><span>' + esc(note) + '</span></div></li>';
+      }).join('');
+      document.getElementById('card').hidden = false;
+    }).catch(function(){ document.getElementById('sub').textContent = 'We couldn\'t check right now. Please try again in a minute.'; });
+})();
+</script>
+</body>
+</html>
