@@ -215,6 +215,13 @@ header.site .wrap{position:relative}
 .phero.hasbg .btn-line{color:#fff;border-color:#fff;background:rgba(1,22,46,.25)}
 .phcred{position:absolute;left:16px;bottom:54px;z-index:3;font-size:12px;color:rgba(255,255,255,.75)}
 .phcred a{color:inherit}
+/* My Story: Stuart's workshop */
+.wsg{display:grid;grid-template-columns:1fr 1fr .78fr;grid-template-rows:330px 250px;gap:14px;margin-top:34px}
+.wsg figure{margin:0;border-radius:18px;overflow:hidden;background:#e9e1cc;box-shadow:0 10px 30px rgba(2,32,66,.12)}
+.wsg img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s ease}
+.wsg figure:hover img{transform:scale(1.04)}
+.wsg .a{grid-column:1/3;grid-row:1}.wsg .b{grid-column:3;grid-row:1/3}.wsg .c{grid-column:1;grid-row:2}.wsg .d{grid-column:2;grid-row:2}
+@media (max-width:760px){.wsg{grid-template-columns:1fr 1fr;grid-template-rows:auto}.wsg .a{grid-column:1/3;grid-row:auto;aspect-ratio:4/3}.wsg .b{grid-column:1/3;grid-row:auto;aspect-ratio:3/4}.wsg .c,.wsg .d{grid-column:auto;grid-row:auto;aspect-ratio:4/3}}
 .waves{position:absolute;left:0;right:0;bottom:0;height:46px;z-index:2}
 .waves::before,.waves::after{content:"";position:absolute;inset:0;background-repeat:repeat-x;background-position-y:bottom}
 .waves::before{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='260' height='46' viewBox='0 0 260 46'><path d='M0 22 Q32 8 65 22 T130 22 T195 22 T260 22 V46 H0Z' fill='%2388c3e3' fill-opacity='.55'/></svg>");animation:wv 11s linear infinite}
@@ -1035,6 +1042,13 @@ footer .base .adm{display:block;margin-top:6px}
       </div>
     </div>
     <div class="bhls"><div class="bhl" data-r style="--d:0.00s"><b>15+</b><span class="k">YEARS AT THE BENCH</span><span>Club building, repairs and running a workshop</span></div><div class="bhl" data-r style="--d:0.08s"><b>2</b><span class="k">GOLF GIANTS</span><span>Senior roles at TaylorMade and Callaway</span></div><div class="bhl" data-r style="--d:0.16s"><b>5</b><span class="k">GLOBAL NAMES</span><span>Audi, Bentley, Mercedes, Maersk and St Andrews Links</span></div></div>
+    <div class="head" data-r style="margin-top:90px"><h2>THE WORKSHOP</h2><p>Where your clubs come for their regrips, repairs and MOTs: the right tools, the grips on the wall and the time to do the job properly.</p></div>
+    <div class="wsg" data-r>
+      <figure class="a"><img src="/img/60e13ebb84.webp" alt="Inside the Coastal Golf Co workshop: the main workbench with the belt sander, grip vice and tools, and the Coastal Golf Co sign on the wall" width="1400" height="1050" loading="lazy"></figure>
+      <figure class="b"><img src="/img/a621a6dbc7.webp" alt="The length of the workshop, from the loft and lie machine to the Golf Pride and SuperStroke grip displays by the door" width="750" height="1000" loading="lazy"></figure>
+      <figure class="c"><img src="/img/42828188d0.webp" alt="The grip wall and workbench, with Golf Pride and SuperStroke grips on display" width="1400" height="1050" loading="lazy"></figure>
+      <figure class="d"><img src="/img/4c148240e8.webp" alt="The workbench and grip station, with labelled storage for tape, solvent and buffing supplies" width="1400" height="1050" loading="lazy"></figure>
+    </div>
     <div class="cta" data-r><div><h2>BRING ME YOUR CLUBS</h2><p>Regrips, repairs, loft and lie, or a full tune-up. Collected from your door and back in your bag, ready to play.</p></div>
       <div class="row"><a class="btn btn-gold" href="/services/">See my services<svg class="i"><use href="#arrow"/></svg></a><a class="btn btn-line" href="/courses/">My five courses</a></div></div>
   </div>
