@@ -215,6 +215,20 @@ header.site .wrap{position:relative}
 .phero.hasbg .btn-line{color:#fff;border-color:#fff;background:rgba(1,22,46,.25)}
 .phcred{position:absolute;left:16px;bottom:54px;z-index:3;font-size:12px;color:rgba(255,255,255,.75)}
 .phcred a{color:inherit}
+/* Home: the workshop on the move */
+.wsh{background:linear-gradient(180deg,#022042,#01162e);color:#fff;overflow:hidden}
+.wsh h2{color:#fff}.wsh .script{color:#e6b65a}.wsh .wsl{color:#c9d4e6;max-width:640px;margin:12px auto 0;font-size:18px}
+.wsm{margin:24px 0 20px;padding:16px 0 30px;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+.wsr{display:flex;gap:18px;width:max-content;animation:wsroll 55s linear infinite}
+.wsm:hover .wsr{animation-play-state:paused}
+.wst{margin:0;height:340px;width:453px;flex:none;border-radius:18px;overflow:hidden;box-shadow:0 14px 34px rgba(0,0,0,.35);border:3px solid rgba(230,182,90,.55);transform:rotate(-1.2deg)}
+.wst:nth-child(even){transform:rotate(1.2deg) translateY(12px)}
+.wst.p{width:255px}
+.wst img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s ease}
+.wst:hover img{transform:scale(1.06)}
+@keyframes wsroll{to{transform:translateX(calc(-50% - 9px))}}
+@media (max-width:760px){.wst{height:220px;width:293px}.wst.p{width:165px}.wsr{animation-duration:40s}}
+@media (prefers-reduced-motion:reduce){.wsr{animation:none}.wsm{overflow-x:auto}}
 /* My Story: Stuart's workshop */
 .wsg{display:grid;grid-template-columns:1fr 1fr .78fr;grid-template-rows:330px 250px;gap:14px;margin-top:34px}
 .wsg figure{margin:0;border-radius:18px;overflow:hidden;background:#e9e1cc;box-shadow:0 10px 30px rgba(2,32,66,.12)}
@@ -1105,6 +1119,13 @@ footer .base .adm{display:block;margin-top:6px}
       <div class="step"><span class="n">3</span><h3>BACK IN PLAY</h3><p>Your clubs come back to you serviced, checked and ready for your next round.</p></div>
     </div>
   </div>
+</section>
+
+<section class="s wsh" id="workshop">
+  <div class="wrap"><div class="cstack" data-r><p class="script">Where the work gets done</p><h2>INSIDE THE WORKSHOP</h2>
+    <p class="wsl">Every regrip, repair and MOT is done here, by Stuart, with the right tools and the grips on the wall.</p></div></div>
+  <div class="wsm" data-r><div class="wsr"><figure class="wst"><img src="/img/60e13ebb84.webp" alt="The main workbench, grip vice and belt sander" width="1400" height="1050" loading="lazy"></figure><figure class="wst"><img src="/img/42828188d0.webp" alt="The grip wall, with Golf Pride and SuperStroke grips on display" width="1400" height="1050" loading="lazy"></figure><figure class="wst p"><img src="/img/a621a6dbc7.webp" alt="The length of the workshop, from the loft and lie machine to the door" width="750" height="1000" loading="lazy"></figure><figure class="wst"><img src="/img/4c148240e8.webp" alt="The grip station and labelled storage" width="1400" height="1050" loading="lazy"></figure><figure class="wst" aria-hidden="true"><img src="/img/60e13ebb84.webp" alt="" width="1400" height="1050" loading="lazy"></figure><figure class="wst" aria-hidden="true"><img src="/img/42828188d0.webp" alt="" width="1400" height="1050" loading="lazy"></figure><figure class="wst p" aria-hidden="true"><img src="/img/a621a6dbc7.webp" alt="" width="750" height="1000" loading="lazy"></figure><figure class="wst" aria-hidden="true"><img src="/img/4c148240e8.webp" alt="" width="1400" height="1050" loading="lazy"></figure></div></div>
+  <div class="wrap" style="text-align:center"><a class="btn btn-gold" href="/story/">See the workshop and my story<svg class="i"><use href="#arrow"/></svg></a></div>
 </section>
 
 <section class="s paper" id="offers">

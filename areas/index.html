@@ -215,6 +215,20 @@ header.site .wrap{position:relative}
 .phero.hasbg .btn-line{color:#fff;border-color:#fff;background:rgba(1,22,46,.25)}
 .phcred{position:absolute;left:16px;bottom:54px;z-index:3;font-size:12px;color:rgba(255,255,255,.75)}
 .phcred a{color:inherit}
+/* Home: the workshop on the move */
+.wsh{background:linear-gradient(180deg,#022042,#01162e);color:#fff;overflow:hidden}
+.wsh h2{color:#fff}.wsh .script{color:#e6b65a}.wsh .wsl{color:#c9d4e6;max-width:640px;margin:12px auto 0;font-size:18px}
+.wsm{margin:24px 0 20px;padding:16px 0 30px;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+.wsr{display:flex;gap:18px;width:max-content;animation:wsroll 55s linear infinite}
+.wsm:hover .wsr{animation-play-state:paused}
+.wst{margin:0;height:340px;width:453px;flex:none;border-radius:18px;overflow:hidden;box-shadow:0 14px 34px rgba(0,0,0,.35);border:3px solid rgba(230,182,90,.55);transform:rotate(-1.2deg)}
+.wst:nth-child(even){transform:rotate(1.2deg) translateY(12px)}
+.wst.p{width:255px}
+.wst img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s ease}
+.wst:hover img{transform:scale(1.06)}
+@keyframes wsroll{to{transform:translateX(calc(-50% - 9px))}}
+@media (max-width:760px){.wst{height:220px;width:293px}.wst.p{width:165px}.wsr{animation-duration:40s}}
+@media (prefers-reduced-motion:reduce){.wsr{animation:none}.wsm{overflow-x:auto}}
 /* My Story: Stuart's workshop */
 .wsg{display:grid;grid-template-columns:1fr 1fr .78fr;grid-template-rows:330px 250px;gap:14px;margin-top:34px}
 .wsg figure{margin:0;border-radius:18px;overflow:hidden;background:#e9e1cc;box-shadow:0 10px 30px rgba(2,32,66,.12)}
